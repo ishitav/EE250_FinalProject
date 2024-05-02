@@ -1,14 +1,14 @@
+
 import socket
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 from queue import Queue
 import threading
 
-
-HOST = '0.0.0.0'  # Listen on all network interfaces
+# Server configuration
+HOST = '0.0.0.0'  # localhost
 PORT = 65432
 BUFFER_SIZE = 1024
-print("Listening on " + str(HOST) + ":" + str(PORT))
 
 data_queue = Queue()
 
@@ -41,9 +41,9 @@ def receive_volume_data():
                 data_queue.put(data)
 
 if __name__ == "__main__":
-    volume_levels = [0] * 100  # volume levels list
-    freq_levels = []  # frequency levels list as an empty list
-    index = 0  # index for volume list management
+    volume_levels = [0] * 100  # Initialize volume levels list
+    freq_levels = []  # Initialize frequency levels list as an empty list
+    index = 0  # Initialize index for circular volume list management
 
     fig, (ax1, ax2) = plt.subplots(2, 1)
     ax1.set_title('Volume Level')
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     ax1.set_ylim(0, 100)
     x = range(100)
     volume_line, = ax1.plot(x, volume_levels)
-    freq_line, = ax2.plot([], [])  
+    freq_line, = ax2.plot([], [])  # Start with an empty plot for frequency
 
     ani = FuncAnimation(fig, update_plot, blit=True, interval=100)
 
